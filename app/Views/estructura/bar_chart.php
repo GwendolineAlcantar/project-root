@@ -37,7 +37,20 @@
     </div>
 </nav>
     <div class="container"></div>
-    <h5>Cantidad de productos en cada año</h5>
+    <h5>Cantidad de productos en cada año</h5> <form name="form" action="<?php echo base_url(); ?>/historial/filtrarFechasGraficas" method="post">
+            <div class="row">
+                <div class="col-md-5">
+                    <p>Fecha inicio: <input type="date" class="form-control" id="inicio" name="inicio">
+                </div>
+                <!-- <div class="col-md-5">
+                    Fecha final: <input class="form-control" type="date" id="final" name="final"></p>
+                </div> -->
+                <div class="col-md-2 alinearBotonBus">
+                    <?php echo form_submit('filtrarFechas', 'Buscar', 'class="btn btn-primary"');
+                    ?>
+                </div>
+            </div>
+        </form>
     <div id="chartdiv" style="width: 900px; height: 800px;"></div>
 </div>
     <script>

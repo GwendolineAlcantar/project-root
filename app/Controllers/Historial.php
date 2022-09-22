@@ -45,6 +45,35 @@ class Historial extends BaseController
 
         return view('estructura/historial', $datos);
     }
+
+    public function filtrarFechasGraficas()
+    {
+        //GET - list of orders
+        $get_endpoint = 'orders/list_record';
+
+        $response = perform_http_request('GET', self::getUrl() . $get_endpoint);
+
+        $datos['list_record'] = $response;
+
+        $data = [];
+
+        $request = \Config\Services::request();
+        $productos = json_decode($datos['list_record']);
+        foreach ($productos->response as $value) {
+            // $create_date=$value->create_date;
+            $last_update = $value->last_update;
+            $inicio = $request->getPostGet('inicio');
+            $count = count($value->products);
+
+            if (date("Y-m-d ", strtotime($inicio)) == date("Y-m-d ", strtotime($last_update))) {
+                $data[] = ['date' => date('Y-m-t', strtotime($last_update)), 'count' => $count];
+            }
+        }
+         $data['chart_data'] = json_encode($data);
+        $datos = array('cabecera' => view('estructura/header'), 'chart_data' => $data['chart_data']);
+
+        return view('estructura/bar_chart', $datos);
+    }
     
     public function bar_chart()
     {
